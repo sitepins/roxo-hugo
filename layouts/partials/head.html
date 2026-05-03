@@ -24,13 +24,14 @@
   {{- end }}
 
   {{ "<!-- Google Analytics -->" | safeHTML }}
-  {{ with site.Config.Services.GoogleAnalytics.ID }}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+  {{ $gaID := or site.Config.Services.GoogleAnalytics.ID site.Params.googleAnalyticsID }}
+  {{ if and $gaID (or (hasPrefix $gaID "G-") (hasPrefix $gaID "UA-")) }}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaID }}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', '{{ . }}');
+    gtag('config', '{{ $gaID }}');
   </script>
   {{ end }}
 

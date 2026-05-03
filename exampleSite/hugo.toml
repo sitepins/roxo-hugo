@@ -31,9 +31,13 @@ summarylength = 25
   resampleFilter = "Lanczos"
 
 ######################## Services ################################
+# Set ID to your real Google Analytics measurement ID (e.g. "G-XXXXXXXXXX"
+# for GA4 or "UA-XXXXXXXX-X" for Universal Analytics). Leaving the empty
+# string skips loading the gtag.js snippet. The legacy
+# [params].googleAnalyticsID key is also accepted for backwards compatibility.
 [services]
   [services.googleAnalytics]
-    ID = "YOUR GOOGLE ANALYTICS CODE"
+    ID = ""
 
 ######################## Menus ###################################
 [[menu.nav]]
