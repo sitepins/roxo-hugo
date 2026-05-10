@@ -56,7 +56,7 @@ exclude = []
 # seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
 [metadata]
 keywords = ["Boilerplate", "Hugo"]
-description = "A hugo powered static website"
+description = "A Hugo powered static website built with Tailwind CSS."
 author = "sitepins"
 twitter = "sitepins"
 image = "images/og-image.png"

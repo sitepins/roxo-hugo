@@ -1,6 +1,6 @@
 {
   "name": "roxo-hugo",
-  "description": "A hugo powered static website",
+  "description": "A Hugo powered static website built with Tailwind CSS.",
   "version": "1.0.0",
   "license": "MIT",
   "author": "sitepins",
