@@ -1,0 +1,29 @@
+<article class="relative group transition duration-300 hover:shadow-xl">
+  <!-- Image -->
+  {{ $image:= .Params.image }}
+  {{ if $image }}
+    {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full") }}
+  {{ end }}
+
+
+  <!-- Content -->
+  <div
+    class="absolute bottom-0 w-full bg-tertiary p-6 transition-all duration-300 group-hover:pb-20">
+    <time class="text-primary/80" datetime= "{{ time.Format ":date_long" .PublishDate }}"> {{ time.Format ":date_long" .PublishDate }}</time>
+
+    <h4 class="font-semibold mt-1 mb-3">
+      {{ .Title | markdownify }}
+    </h4>
+
+    <p class="line-clamp-2">
+      {{ .Description | markdownify}}
+    </p>
+
+    <!-- Read More -->
+    <a
+      href="{{ .RelPermalink }}"
+      class="absolute bottom-6 left-6 w-full opacity-0 translate-y-5 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:text-primary hover:underline">
+     {{ T "read_more" | default "Read More" }}
+    </a>
+  </div>
+</article>

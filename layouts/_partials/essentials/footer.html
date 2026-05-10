@@ -1,0 +1,152 @@
+<footer class="section bg-secondary/70">
+  <div class="container">
+    {{ if site.Params.footer.footer_logo }}
+      {{ partial "image" (dict
+        "Src" site.Params.footer.footer_logo
+        "Size" "120x50"
+        "Alt" "footer logo"
+        "DataAos" "fade-in-sm"
+        "Class" "mb-4"
+        )
+      }}
+    {{ else }}
+      <a
+        class="navbar-brand inline-block mb-4"
+        href="{{ site.Home.RelPermalink }}">
+        {{ partial "logo" }}
+      </a>
+    {{ end }}
+
+
+    <div class="mt-12 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-y-14 gap-4 xl:gap-6">
+      <!-- Contact Section -->
+      <div>
+        {{ $section_title := "" }}
+        {{ range site.Menus.footer_01 }}
+          {{ if .Title }}
+            {{ $section_title = .Name }}
+            {{ break }}
+          {{ end }}
+        {{ end }}
+        <h6 class="mb-8 text-text-light">{{ $section_title }}</h6>
+        <ul>
+          {{ range site.Menus.footer_01 }}
+            {{ if not .Title }}
+              <li
+                class="mb-3 last:mb-0 text-text-light text-wrap">
+                <a class="hover:underline" href="{{ .URL | relLangURL }}" target="_blank">
+                  {{ .Name }}
+                </a>
+              </li>
+            {{ end }}
+          {{ end }}
+        </ul>
+      </div>
+
+      <!-- Services Section -->
+      <div>
+        {{ $section_title := "" }}
+        {{ range site.Menus.footer_02 }}
+          {{ if .Title }}
+            {{ $section_title = .Name }}
+            {{ break }}
+          {{ end }}
+        {{ end }}
+        <h6 class="mb-8 text-text-light">{{ $section_title }}</h6>
+        <ul>
+          {{ range site.Menus.footer_02 }}
+            {{ if not .Title }}
+              <li
+                class="mb-3 last:mb-0 text-text-light">
+                <a hover:underline href="{{ .URL | relLangURL }}">
+                  {{ .Name }}
+                </a>
+              </li>
+            {{ end }}
+          {{ end }}
+        </ul>
+      </div>
+
+      <!-- Social Section -->
+      <div>
+        <h6 class="mb-8 text-text-light">
+          {{ with hugo.Data.social.title }}
+            {{ . }}
+          {{ else }}
+            Social
+          {{ end }}
+        </h6>
+        <ul>
+          {{ range hugo.Data.social.main }}
+            <li
+              class="mb-3 last:mb-0 text-text-light">
+              <a
+                href="{{ .link | safeURL }}"
+                class="capitalize hover:underline"
+                target="_blank">
+                {{ .name }}
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+
+      <!-- About Section -->
+      <div>
+        <h6 class="mb-8 text-text-light">
+          {{ site.Params.footer.footer_title }}
+        </h6>
+        <p
+          class="mb-3 last:mb-0 text-text-light">
+          {{ site.Params.footer.footer_description }}
+        </p>
+      </div>
+
+      <!-- Back-To-Top Section -->
+      <div>
+        <a href="#" class="text-text-light js-back-to-top" aria-label="Back to top">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26.071"
+            height="32.634"
+            viewBox="0 0 26.071 32.634">
+            <g id="upload" transform="translate(-3.282)">
+              <path
+                id="Path_3"
+                data-name="Path 3"
+                d="M16.317,32.634a.5.5,0,0,1-.5-.5V.5a.5.5,0,0,1,1,0V32.134A.5.5,0,0,1,16.317,32.634Z"
+                fill="currentColor" />
+              <path
+                id="Path_4"
+                data-name="Path 4"
+                d="M28.852,13.536a.5.5,0,0,1-.354-.146L16.319,1.207,4.135,13.39a.5.5,0,0,1-.707-.707L15.966.146A.5.5,0,0,1,16.319,0h0a.5.5,0,0,1,.354.146L29.206,12.682a.5.5,0,0,1-.354.854Z"
+                fill="currentColor" />
+            </g>
+          </svg>
+
+          <p class="mt-4">
+            {{ .Site.Params.footer.back_to_top | safeHTML }}
+          </p>
+        </a>
+      </div>
+
+      {{/* Smooth scroll script for back-to-top (prevents hash in URL) */}}
+      <script>
+        (function(){
+          function onClick(e){
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          document.addEventListener('DOMContentLoaded', function(){
+            var els = document.querySelectorAll('.js-back-to-top');
+            for(var i=0;i<els.length;i++) els[i].addEventListener('click', onClick, {passive:false});
+          });
+        })();
+      </script>
+    </div>
+
+    <p class="text-text-light text-center [&>a]:underline mt-14">
+      {{ site.Params.copyright | markdownify }}
+    </p>
+  </div>
+</footer>

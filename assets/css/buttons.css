@@ -1,0 +1,44 @@
+.btn {
+  @apply inline-block border-0 rounded-none px-10 py-3.75 font-secondary font-light text-white transition-colors duration-300 cursor-pointer;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  .btn-area {
+    @apply block overflow-hidden;
+
+    span {
+      @apply relative inline-block py-[2px] origin-left transition-transform duration-[900ms];
+      transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+
+      &::after {
+        content: attr(data-text);
+        @apply absolute left-0 top-[150%] origin-left;
+        transform: skewY(30deg);
+        transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+    }
+  }
+
+  &:hover,
+  &:visited {
+    .btn-area {
+      span {
+        transform: translateY(-150%) skewY(7deg);
+
+        &::after {
+          transform: skewY(-7deg);
+        }
+      }
+    }
+  }
+}
+
+.btn-primary {
+  @apply border-primary bg-primary/85 hover:bg-primary text-text-light;
+}
+
+.btn-secondary {
+  @apply border-secondary bg-secondary/85 hover:bg-secondary text-text-light;
+}

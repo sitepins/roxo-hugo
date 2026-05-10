@@ -1,0 +1,164 @@
+{{ define "main" }}
+  <section class="section pt-46 bg-tertiary">
+    <div class="container">
+      <div class="flex justify-between lg:gap-14">
+        <h2 class="h1 lg:w-[40%]">
+          {{ .Title | markdownify }}
+        </h2>
+
+        <form
+          id="contact-form"
+          class="lg:w-[50%] mt-4"
+          action="{{ site.Params.contact_form_action }}"
+          method="POST">
+          <h3 class="h5 font-extralight tracking-widest mb-8">
+            {{ .Params.form_heading | markdownify }}
+          </h3>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <input
+              type="text"
+              class="form-control"
+              name="first-name"
+              id="first-name"
+              placeholder="{{ T "first-name" | default "First Name" }}"
+              required />
+            <input
+              type="text"
+              class="form-control"
+              name="last-name"
+              id="last-name"
+              placeholder="{{ T "last-name" | default "Last Name" }}"
+              required />
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              id="email"
+              placeholder="{{ T "email" | default "Email" }}"
+              required />
+            <div class="select-wrapper">
+              <select
+                class="form-control w-full"
+                id="projectType"
+                name="project-type"
+                required>
+                <option value="" selected disabled hidden>
+                  {{ T "project-type" | default "Select Project Type" }}
+                </option>
+                <option value="web-design">
+                  {{ T "web-design" | default "Web Design" }}
+                </option>
+                <option value="web-development">
+                  {{ T "web-development" | default "Web Development" }}
+                </option>
+                <option value="mobile-app">
+                  {{ T "mobile-app" | default "Mobile App" }}
+                </option>
+                <option value="branding">
+                  {{ T "branding" | default "Branding" }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <textarea
+              class="form-control w-full resize-none"
+              id="aboutProject"
+              name="about-project"
+              rows="6"
+              placeholder="{{ T "about-project" | default "Tell us about your project..." }}"
+              required></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="contact-form-button">
+            <span class="btn-area">
+              <span data-text=" {{ T "submit" | default "Send Message" }}">
+                {{ T "submit" | default "Send Message" }}
+              </span>
+            </span>
+          </button>
+          <p id="contact-form-status" class="mt-4"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- google map -->
+  {{ with site.Params.google_map }}
+    {{ if .enable }}
+      <div
+        id="map"
+        style="height: 400px;"
+        data-latitude="{{ .map_latitude }}"
+        data-longitude="{{ .map_longitude }}"
+        data-marker="{{ .map_marker | relURL }}"
+        data-marker-name="{{ site.Title }}"></div>
+    {{ end }}
+  {{ end }}
+
+  {{ with site.Params.subscription }}
+    {{ if .enable }}
+      <!-- subscription form -->
+      <form
+        action="{{ .mailchimp_form_action | safeURL }}"
+        method="post"
+        id="mc-embedded-subscribe-form"
+        novalidate="novalidate">
+        <div class="input-group w-75 mx-auto mb-3">
+          <input
+            type="email"
+            name="EMAIL"
+            placeholder="{{ T "email" | default "Email" }}"
+            class="form-control required email mce_inline_error"
+            id="mce-EMAIL"
+            aria-required="true"
+            autocomplete="off"
+            required />
+          <button
+            class="input-group-text"
+            name="subscribe"
+            id="mc-embedded-subscribe">
+            {{ .button_label }}
+          </button>
+        </div>
+        <input
+          type="hidden"
+          name="EMAILTYPE"
+          id="mce-EMAILTYPE-0"
+          value="html" />
+        <div style="position:absolute;left:-5000px" aria-hidden="true">
+          <input type="text" name="{{ .name }}" tabindex="-1" />
+        </div>
+      </form>
+      <div id="mce-responses" class="clear">
+        <div
+          class="response text-white"
+          id="mce-error-response"
+          style="display:none"></div>
+        <div
+          class="response text-white"
+          id="mce-success-response"
+          style="display:none"></div>
+      </div>
+      <script
+        type="text/javascript"
+        src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+      <!-- /subscription form -->
+    {{ end }}
+  {{ end }}
+
+  {{ if site.Params.google_map.enable }}
+    {{ $gmap:= resources.Get "plugins/maps/google-map.js" }}
+    <script defer src="{{ $gmap.RelPermalink }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.Params.google_map.map_api_key }}&libraries=places"></script>
+  {{ end }}
+
+{{ end }}

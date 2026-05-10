@@ -1,20 +1,60 @@
 {{ define "main" }}
+  <section class="section pt-46">
+    <div class="container">
+      <div class="row justify-center">
+        <article class="lg:col-10">
+          <ul class="mb-4">
+            <li class="mr-4 inline-block">
+              <p>
+                <i class="fa-regular fa-circle-user mr-2"></i
+                >{{ .Params.author }}
+              </a>
+            </li>
+            <li class="mr-4 inline-block">
+              <i class="fa-regular fa-clock mr-2"></i>
+              {{ time.Format ":date_long" .PublishDate }}
+            </li>
+          </ul>
 
-<section class="site-blog details">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <article class="site-blog-details">
-          <p><span>{{ .PublishDate.Format "January 2, 2006" }}</span> by <span>{{ .Params.author }}</span></p>
-          <h2 class="blog-title">{{ .Title }}</h2>
-          <img class="feature-image" src="{{ .Params.feature_image | absURL }}" alt="blog-feature-image">
-          {{ .Content }}
+          {{ $image:= .Params.image }}
+          {{ if $image }}
+            <div class="mb-10">
+              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full") }}
+            </div>
+          {{ end }}
+          <h1 class="h2 mb-4">
+            {{ .Title }}
+          </h1>
+          <div class="content mb-10">
+            {{ partial "toc.html" (dict "Class" "blog" "Collapsed" false "TableOfContents" .TableOfContents ) }}
+            {{ .Content }}
+          </div>
+          <div class="row justify-end">
+            <div class="lg:col-6 flex items-center lg:justify-end">
+              <h5>{{ T "share" | default "Share" }} :</h5>
+              {{ partial "social-share" (dict "Context" . "Class" "share-icons" "Title" .Title "Whatsapp" false "Telegram" false "Linkedin" false "Pinterest" false "Tumblr" false "Vk" false "Reddit" false) }}
+            </div>
+          </div>
         </article>
       </div>
+
+      <!-- Related posts -->
+      {{ $related := .Site.RegularPages.Related . | first 10 }}
+      {{ $related = $related | shuffle | first 2 }}
+      {{ with $related }}
+        <div class="section pb-0">
+          <h2 class="h3 mb-12">
+            {{ T "related_posts" | default "Related Posts" }}
+          </h2>
+          <div class="row">
+            {{ range . }}
+              <div class="md:col-6 mb-14">
+                {{ partial "components/blog-card" . }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
     </div>
-  </div>
-</section>
-
-{{ partial "call-to-action.html" . }}
-
+  </section>
 {{ end }}

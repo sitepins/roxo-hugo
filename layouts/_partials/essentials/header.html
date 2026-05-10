@@ -1,0 +1,179 @@
+<header
+  id="site-header"
+  data-navbar-fixed="{{ if site.Params.navbar_fixed }}
+    true
+  {{ else }}
+    false
+  {{ end }}"
+  class="header {{ if site.Params.navbar_fixed }}
+    fixed top-0
+  {{ end }} inset-x-0 z-50 py-6 lg:py-6 transition-all duration-300 ease-in-out">
+  <nav class="navbar container">
+    <!-- logo -->
+    <div class="order-0">
+      <!-- navbar brand/logo -->
+      <a class="navbar-brand block" href="{{ site.Home.RelPermalink }}">
+        {{/* https://github.com/gethugothemes/hugo-modules/tree/master/images */}}
+        {{ partial "logo" }}
+      </a>
+    </div>
+    <!-- navbar toggler -->
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label
+      for="nav-toggle"
+      class="order-2 cursor-pointer flex items-center lg:hidden text-text-dark lg:order-1 ml-auto">
+      <svg id="show-button" class="h-6 fill-current block" viewBox="0 0 20 20">
+        <title>{{ T "menu-open" | default "Menu Open" }}</title>
+        <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+      </svg>
+      <svg id="hide-button" class="h-6 fill-current hidden" viewBox="0 0 20 20">
+        <title>{{ T "menu-close" | default "Menu Close" }}</title>
+        <polygon
+          points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+          transform="rotate(45 10 10)"></polygon>
+      </svg>
+    </label>
+    <!-- /navbar toggler -->
+
+    <div class="order-3 flex flex-col lg:flex-row items-center lg:order-2 w-full lg:w-auto lg:justify-between">
+      <!-- main navbar -->
+      <ul
+        id="nav-menu"
+        class="navbar-nav hidden lg:flex w-full pb-6 lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8">
+        {{ $currentPage := . }}
+        {{ range site.Menus.main }}
+          {{ $menuURL := .URL | absLangURL }}
+          {{ $pageURL:= $currentPage.Permalink | absLangURL }}
+          {{ $active := eq $menuURL $pageURL }}
+          {{ if .HasChildren }}
+            <li class="nav-item nav-dropdown group relative">
+              <input
+                type="checkbox"
+                id="submenu-{{ .Name | urlize }}"
+                class="peer lg:hidden" />
+              <label
+                for="submenu-{{ .Name | urlize }}"
+                class="nav-link {{ range .Children }}
+                  {{ $childURL := .URL | absLangURL }}
+                  {{ $active := eq $childURL $pageURL }}
+                  {{ if $active }}active{{ end }}
+                {{ end }} inline-flex items-center">
+                {{ .Name }}
+                <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                  <path
+                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </label>
+              <ul
+                class="nav-dropdown-list hidden peer-checked:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100">
+                {{ range .Children }}
+                  {{ $childURL := .URL | absLangURL }}
+                  {{ $active := eq $childURL $pageURL }}
+                  <li class="nav-dropdown-item">
+                    <a
+                      class="nav-dropdown-link {{ if $active }}
+                        active
+                      {{- end -}}"
+                      {{ if findRE `^http` .URL }}
+                        target="_blank" rel="noopener"
+                      {{ end }}
+                      href="{{- if findRE `^#` .URL -}}
+                        {{- if not $.IsHome -}}
+                          {{- site.Home.RelPermalink -}}
+                        {{- end }}
+                        {{- .URL -}}
+                      {{- else -}}
+                        {{- .URL | relLangURL -}}
+                      {{- end -}}">
+                      {{ .Name }}
+                    </a>
+                  </li>
+                {{ end }}
+              </ul>
+            </li>
+          {{ else }}
+            <li class="nav-item">
+              <a
+                class="nav-link {{ if $active }}active{{- end -}}"
+                {{ if findRE `^http` .URL }}
+                  target="_blank" rel="noopener"
+                {{ end }}
+                href="{{- if findRE `^#` .URL -}}
+                  {{- if not $.IsHome -}}
+                    {{- site.Home.RelPermalink -}}
+                  {{- end }}{{- .URL -}}
+                {{- else -}}
+                  {{- .URL | relLangURL -}}
+                {{- end -}}"
+                >{{ .Name }}</a
+              >
+            </li>
+          {{ end }}
+        {{ end }}
+        {{ if site.Params.navigation_button.enable }}
+          <li class="mt-4 inline-block lg:hidden">
+            <a
+              class="btn btn-primary"
+              href="{{ site.Params.navigation_button.link | relLangURL }}"
+              {{ if (hasPrefix site.Params.navigation_button.link `http`) }}
+                target="_blank" rel="noopener"
+              {{ end }}>
+              {{ site.Params.navigation_button.label }}
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+      {{ partial "components/language-switcher" (dict "Context" . "Class" "mr-5 pl-2 py-1 rounded") }}
+
+
+      <!-- navigation btn -->
+      {{ if site.Params.navigation_button.enable }}
+        <a
+          href="{{ site.Params.navigation_button.link | relLangURL }}"
+          class="btn btn-primary hidden lg:inline-block rounded-full"
+          {{ if (hasPrefix site.Params.navigation_button.link `http`) }}
+            target="_blank" rel="noopener"
+          {{ end }}
+          >
+          <span class="btn-area">
+            <span data-text="{{ site.Params.navigation_button.label }}">
+              {{ site.Params.navigation_button.label }}
+            </span>
+          </span>
+        </a>
+      {{ end }}
+    </div>
+  </nav>
+
+  {{/* Header shrink on scroll */}}
+  <script>
+    (function(){
+      var header = document.getElementById('site-header');
+      var lastScrollTop = 0;
+      var shrunk = false;
+
+      if(!header) return;
+
+      function handleScroll(){
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        if(scrollTop > 50){
+          if(!shrunk){
+            header.classList.remove('py-6', 'lg:py-6');
+            header.classList.add('py-3', 'lg:py-3', 'shadow-md');
+            shrunk = true;
+          }
+        } else {
+          if(shrunk){
+            header.classList.remove('py-3', 'lg:py-3', 'shadow-md');
+            header.classList.add('py-6', 'lg:py-6');
+            shrunk = false;
+          }
+        }
+        lastScrollTop = scrollTop;
+      }
+
+      window.addEventListener('scroll', handleScroll, {passive: true});
+    })();
+  </script>
+</header>

@@ -1,0 +1,38 @@
+{{ define "main" }}
+  <section class="section bg-tertiary">
+    <div class="container">
+       {{ if .Params.image }}
+            {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "mx-auto mb-6" ) }}
+          {{ end }}
+
+
+          <div class="flex max-lg:flex-col items-center gap-10">
+            <h2
+              class="h5 mb-6 p-10 bg-primary/60 text-text-light tracking-widest leading-15">
+              {{ .Title }}
+            </h2>
+            <p class="h5 font-extralight">{{ .Description }}</p>
+          </div>
+    </div>
+  </section>
+
+  <section class="section pt-0! bg-tertiary">
+    <div class="container">
+      <div class="flex max-lg:flex-col gap-4">
+        {{ with .Params.expertise_title }}
+          <h2 class="lg:w-[45%] uppercase font-extralight">{{ . }}</h2>
+        {{ end }}
+        <div class="lg:w-[65%]">
+          <ul class="space-y-6">
+            {{ range .Params.expertise_sectors }}
+              <li class="h5 text-text-dark font-extralight">{{ . }}</li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{ partial "clients" . }}
+  {{ partial "team" . }}
+{{ end }}

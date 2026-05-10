@@ -1,0 +1,16 @@
+{{ with site.GetPage "sections/clients" }}
+  {{ if .Params.enable }}
+    <section class="section">
+      <div class="container">
+        <h2 class="uppercase font-extralight tracking-widest mb-18">{{ .Params.title }}</h2>
+        <ul class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 gap-y-14">
+          {{ range .Params.client_logos }}
+            <li>
+              {{ partial "image" (dict "Src" . "Class" "object-contain mx-auto" "Alt" "client-logo") }}
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}

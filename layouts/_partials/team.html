@@ -1,0 +1,38 @@
+{{ with site.GetPage "sections/team" }}
+  {{ if .Params.enable }}
+    <section class="section">
+      <div class="container">
+        <h2 class="uppercase font-extralight tracking-widest mb-18">
+          {{ .Params.title }}
+        </h2>
+
+        <div class="grid gap-10 lg:gap-6 h-auto md:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-stretch">
+          {{ range .Params.members }}
+            <div class="relative h-full flex flex-col pt-14">
+              <figure class="absolute -top-4 lg:top-0 left-6 z-10">
+                {{ partial "image" (dict "Src" .image "Class" "rounded-full" "Alt" .name) }}
+              </figure>
+              <div class="bg-tertiary p-6 pt-16 flex-1">
+                <h3 class="h6 font-normal text-primary">{{ .name }}</h3>
+                <p class="text-text-dark font-extralight mt-2 mb-4">{{ .designation }}</p>
+                <ul class="social-icons">
+                  {{ range .social }}
+                    <li>
+                      <a
+                        href="{{ .link | safeURL }}"
+                        target="_blank"
+                        rel="noopener nofollow">
+                        <span class="sr-only">{{ .title }}</span>
+                        <i class="{{ .icon }}"></i>
+                      </a>
+                    </li>
+                  {{ end }}
+                </ul>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}

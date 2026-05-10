@@ -1,0 +1,21 @@
+{
+  "builds": [
+    {
+      "src": "vercel-build.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "/404.html"
+    }
+  ]
+}

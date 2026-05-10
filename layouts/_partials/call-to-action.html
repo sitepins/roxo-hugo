@@ -1,0 +1,41 @@
+{{ with site.GetPage "sections/call-to-action" }}
+  {{ if .Params.enable }}
+    {{ $ctaImage := resources.Get (strings.TrimPrefix "/" .Params.image) }}
+    <section
+      class="section bg-center bg-cover bg-no-repeat"
+      {{ with $ctaImage }}
+        style="background-image: url('{{ .RelPermalink }}');"
+      {{ end }}>
+      <div class="container text-center">
+        <h2 class="h1 mb-2 xl:text-[70px]">
+          {{ .Title | markdownify }}
+        </h2>
+
+        <div class="mt-10 flex gap-6 justify-center flex-wrap">
+          {{ with .Params.button_secondary }}
+            {{ if .enable }}
+              <a class="btn btn-secondary" href="{{ .link | absURL }}">
+                <span class="btn-area">
+                  <span data-text="{{ .label }}">
+                    {{ .label }}
+                  </span>
+                </span>
+              </a>
+            {{ end }}
+          {{ end }}
+          {{ with .Params.button_primary }}
+            {{ if .enable }}
+              <a class="btn btn-primary" href="{{ .link | absURL }}">
+                <span class="btn-area">
+                  <span data-text="{{ .label }}">
+                    {{ .label }}
+                  </span>
+                </span>
+              </a>
+            {{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}

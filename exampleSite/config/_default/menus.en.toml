@@ -1,0 +1,72 @@
+############# English navigation ##############
+
+# main menu
+[[main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[main]]
+name = "About"
+url = "/about"
+weight = 2
+
+[[main]]
+name = "Portfolio"
+url = "/portfolio"
+weight = 3
+
+[[main]]
+name = "Blog"
+url = "/blog"
+weight = 4
+
+
+# footer menu
+# Contact section
+[[footer_01]]
+name = "Contact Info" # This acts as the section title
+title = true     # Flag to identify this as a section title
+weight = 0       # Lower weight to appear first
+
+[[footer_01]]
+name = "713 Elmwood St. Prior Lake, MN 55372"
+url = "https://www.google.com/maps?q=713+Elmwood+St,+Prior+Lake,+MN+55372"
+weight = 1
+
+[[footer_01]]
+name = "409-896-1444"
+url = "tell:409-896-1444"
+weight = 2
+
+[[footer_01]]
+name = "info@roxo.co"
+url = "mailto:info@roxo.co"
+weight = 3
+
+# Sitemap section
+[[footer_02]]
+name = "Sitemap" # This acts as the section title
+title = true      # Flag to identify this as a section title
+weight = 0        # Lower weight to appear first
+
+[[footer_02]]
+name = "Elements"
+url = "/elements"
+weight = 1
+
+[[footer_02]]
+name = "Projects"
+url = "/projects"
+weight = 2
+
+[[footer_02]]
+name = "Blog"
+url = "/blog"
+weight = 3
+
+[[footer_02]]
+name = "Contact"
+url = "/contact"
+weight = 4
+

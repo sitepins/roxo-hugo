@@ -1,0 +1,6 @@
+################ English language ##################
+[en]
+label = "En"
+locale = "en-us"
+contentDir = "content/english"
+weight = 1

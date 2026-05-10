@@ -1,0 +1,218 @@
+{{ define "main" }}
+  <!-- Banner -->
+  {{ with .Params.banner }}
+    {{ $bannerImage := resources.Get (strings.TrimPrefix "/" .image) }}
+    <section
+      class="min-h-screen flex items-center bg-center bg-no-repeat bg-cover"
+      {{ with $bannerImage }}
+        style="background-image: url('{{ .RelPermalink }}');"
+      {{ end }}>
+      <div class="container">
+        <div class="row justify-center">
+          <div class="lg:col-10 md:col-9 mb-8 text-center">
+            <p class="mb-2 text-text-dark font-extralight">
+              {{ .content | markdownify }}
+            </p>
+            <h1 class="text-h3 lg:text-h1">
+              {{ .title | markdownify }}
+            </h1>
+
+            <div class="mt-18! flex gap-5 flex-wrap justify-center">
+              {{ with .button_secondary }}
+                {{ if .enable }}
+                  <a
+                    class="btn btn-secondary"
+                    href="{{ .link | absURL }}"
+                    {{ if strings.HasPrefix .link `http` }}
+                      target="_blank" rel="noopener"
+                    {{ end }}>
+                    <span class="btn-area">
+                      <span data-text="{{ .label }}">
+                        {{ .label }}
+                      </span>
+                    </span>
+                  </a>
+                {{ end }}
+              {{ end }}
+
+              {{ with .button_primary }}
+                {{ if .enable }}
+                  <a
+                    class="btn btn-primary"
+                    href="{{ .link | absURL }}"
+                    {{ if strings.HasPrefix .link `http` }}
+                      target="_blank" rel="noopener"
+                    {{ end }}>
+                    <span class="btn-area">
+                      <span data-text="{{ .label }}">
+                        {{ .label }}
+                      </span>
+                    </span>
+                  </a>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="absolute bottom-15 left-1/2 -translate-x-1/2 js-scroll-to-next cursor-pointer bg-none border-none p-0"
+        type="button"
+        aria-label="Scroll to next section">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="26.07"
+          height="32.634"
+          viewBox="0 0 26.07 32.634">
+          <g id="download" transform="translate(-3.282)">
+            <path
+              id="Path_1"
+              data-name="Path 1"
+              d="M16.317,32.634a.5.5,0,0,1-.5-.5V.5a.5.5,0,0,1,1,0V32.134A.5.5,0,0,1,16.317,32.634Z"
+              fill="#00113e" />
+            <path
+              id="Path_2"
+              data-name="Path 2"
+              d="M16.315,32.634h0a.5.5,0,0,1-.354-.146L3.428,19.951a.5.5,0,0,1,.707-.707L16.314,31.427,28.5,19.244a.5.5,0,1,1,.707.707L16.668,32.487A.5.5,0,0,1,16.315,32.634Z"
+              fill="#00113e" />
+            </g>
+          </svg>
+      </button>
+
+      {{/* Smooth scroll to company stats section with header offset */}}
+      <script>
+        (function(){
+          function onClick(e){
+            e.preventDefault();
+            var statsSection = document.querySelector('.bg-secondary\\/70');
+            if(statsSection) {
+              var header = document.querySelector('nav, [role="banner"], header');
+              var headerHeight = header ? header.offsetHeight : 0;
+              var targetPosition = statsSection.getBoundingClientRect().top + window.scrollY - headerHeight;
+              window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+          }
+          document.addEventListener('DOMContentLoaded', function(){
+            var btn = document.querySelector('.js-scroll-to-next');
+            if(btn) btn.addEventListener('click', onClick, {passive:false});
+          });
+        })();
+      </script>
+    </section>
+  {{ end }}
+  <!-- /Banner -->
+
+  <!-- Company Stats -->
+  {{ with .Params.company_stats }}
+    {{ if .enable }}
+      <section class="section-sm bg-secondary/70">
+        <div class="container">
+          <div class="row">
+            <h2 class="mb-10 text-text-light font-extralight tracking-widest">
+              {{ .title }}
+            </h2>
+            <div class="row g-4">
+              {{ range .stats }}
+                <div class="md:col-3 col-6">
+                  <div class="">
+                    <h6 class="text-text-light font-extralight text-lg">
+                      {{ .name }}
+                    </h6>
+                    <p class="h1 text-text-light font-bold -mt-2!">
+                      {{ .count }}
+                    </p>
+                  </div>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Company Stats -->
+
+  <!-- Recent Works -->
+  {{ with .Params.recent_works }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="row items-center justify-between">
+            <h2 class="mb-4 font-extralight tracking-widest">
+              {{ .title | markdownify }}
+            </h2>
+            <p class="h6">
+              {{ .description | markdownify }}
+            </p>
+
+            <div class="mt-14 grid gap-8 md:grid-cols-2">
+              {{ range where (where site.RegularPages "Type" "portfolio") "Params.featured" true }}
+                {{ partial "components/portfolio-card" . }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Features -->
+
+  <!-- Testimonials -->
+  {{ with site.GetPage "sections/testimonial" }}
+    {{ if .Params.enable }}
+      <section class="section bg-tertiary">
+        <style>
+          @media (min-width: 1024px) {
+            .testimonials-grid:hover .testimonial-card {
+              opacity: 0.4;
+            }
+
+            .testimonials-grid:hover .testimonial-card:hover {
+              opacity: 1;
+            }
+          }
+        </style>
+        <div class="container">
+          <div class="row">
+            <div class="mb-12">
+              <h2 class="mb-4 font-extralight">
+                {{ .Title | markdownify }}
+              </h2>
+              <p class="h6">
+                {{ .Params.description | markdownify }}
+              </p>
+            </div>
+            <div class="col-12">
+              <div class="testimonials-grid grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {{ range .Params.testimonials }}
+                  <article class="testimonial-card bg-body px-7 py-10 transition-opacity duration-300">
+                    <div class="mb-6 flex items-center">
+                      {{ partial "image" (dict "Src" .avatar "Size" "80x80" "Class" "" "Alt" .name) }}
+                      <div class="ml-4">
+                        <h3 class="h6 font-primary font-semibold">
+                          {{ .name }}
+                        </h3>
+                        <p>
+                          {{ .designation | markdownify }}
+                        </p>
+                      </div>
+                    </div>
+                    <blockquote>
+                      {{ .content | markdownify }}
+                    </blockquote>
+                  </article>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Testimonials -->
+
+  <!-- Call to action -->
+  {{ partial "call-to-action" . }}
+  <!-- /Call to action -->
+{{ end }}

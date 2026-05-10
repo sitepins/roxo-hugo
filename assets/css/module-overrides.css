@@ -1,0 +1,63 @@
+/* table of contents */
+.table-of-content {
+  @apply overflow-hidden rounded;
+}
+
+/* share icons */
+.share-icons .share-link {
+  @apply h-9 w-9 rounded leading-9 bg-primary hover:bg-primary;
+}
+
+.share-icons .share-icon svg {
+}
+
+.fediverse-input-wrapper {
+  @apply bg-body  rounded;
+  input {
+    @apply rounded focus:border-primary focus:ring-0;
+  }
+  button {
+    @apply rounded bg-primary  text-light  hover:bg-primary;
+  }
+}
+
+/* notice */
+.notice {
+  @apply rounded-lg;
+}
+
+/* tab */
+.tab {
+  @apply border-border  overflow-hidden rounded-lg border;
+}
+.tab-nav {
+  @apply border-border bg-light   pl-4;
+}
+.tab-nav-item {
+  @apply text-text-dark  px-8 !text-lg;
+}
+.tab-nav-item.active {
+  @apply border-dark;
+}
+
+.tab-content-panel {
+  @apply px-4 !pt-0;
+}
+
+/* accordion */
+.accordion {
+  @apply border-border bg-light   mb-6 overflow-hidden rounded-lg border;
+}
+.accordion-header {
+  @apply text-text-dark;
+}
+
+/* cookie consent */
+.cookie-box {
+  @apply !rounded-lg;
+}
+
+/* slider */
+.gallery-slider {
+  @apply !ml-0;
+}

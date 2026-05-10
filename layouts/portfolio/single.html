@@ -1,39 +1,27 @@
 {{ define "main" }}
-
-<section class="site-project-single-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto">
-        <div class="site-project-single">
-          <h1>
+  <section class="section pt-46">
+    <div class="container">
+      <div class="mx-auto max-w-4xl">
+        <div class="mb-10 space-y-6">
+          <h1 class="font-medium tracking-wider h2">
             {{ .Title }}
           </h1>
-          <div class="site-project-single-description">
-            {{ .Content }}
-          </div>
-          <div class="site-project-single-image">
-            {{ range .Params.project_images }}
-            <img src="{{ . | absURL }}" alt="project image">
-            {{ end }}
-          </div>
-          {{ if .NextInSection }}
-          <div class="site-project-single-action">
-            <a href="{{.NextInSection.Permalink}}">
-              <span class="link-area">
-                <span data-text="Next Project">
-                  Next Project
-                </span>
-              </span>
-              <img src="{{ "images/to-top.svg" | absURL }}" alt="next project">
-            </a>
-          </div>
+
+          {{ with .Params.image }}
+            <img
+              src="{{ . | absURL }}"
+              alt="{{ $.Title }}"
+              class="w-full object-cover shadow-lg" />
           {{ end }}
+        </div>
+
+        <div class="content space-y-8">
+          {{ .Content }}
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-{{ partial "call-to-action.html" . }}
+  {{ partial "call-to-action.html" . }}
 
 {{ end }}

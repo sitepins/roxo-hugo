@@ -1,51 +1,76 @@
 {{ define "main" }}
-
-<section class="site-project-header">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <div class="site-project-header-content">
-          <h1>
+  <section class="section pt-46 bg-tertiary">
+    <div class="container">
+      <div class="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+        <div class="lg:col-span-8">
+          <h2>
             {{ .Title | safeHTML }}
-          </h1>
+          </h2>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <a href="#project" class="site-project-header-action scroll-to">
-          <span>{{ .Site.Params.portfolio.scroll_down }}</span>
-          <img src="{{ "images/arrow-down.svg" | absURL }}" alt="arrow-down">
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="site-project" id="project">
-  <div class="container">
-    <div class="row">
-      {{ range (.Paginator 4).Pages }}
-      <div class="col-lg-6 col-md-10 mx-auto">
-        <div class="site-project-item">
-          <div class="site-project-item-thumb">
-            <img src="{{ .Params.Image | absURL }}" alt="project-thumb">
-          </div>
-          <div class="site-project-item-content">
-            <span>{{ delimit .Params.category ", " }}</span>
-            <h3>{{ .Title }}</h3>
-            <a href="{{ .Permalink }}" class="read-more">{{ .Site.Params.portfolio.view_project }}</a>
-          </div>
-        </div>
-      </div>
-      {{ end }}
-      <div class="col-12">
-        <div class="site-project-pagination">
-          {{ template "_internal/pagination.html" . }}
+        <div class="lg:col-span-4 lg:justify-self-end">
+          <a
+            href="#project"
+            class="js-scroll-to-project flex flex-col items-center gap-3 h4 font-extralight text-text-dark">
+            <span>Scroll Down</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="26.07"
+              height="32.634"
+              viewBox="0 0 26.07 32.634">
+              <g id="download" transform="translate(-3.282)">
+                <path
+                  id="Path_1"
+                  data-name="Path 1"
+                  d="M16.317,32.634a.5.5,0,0,1-.5-.5V.5a.5.5,0,0,1,1,0V32.134A.5.5,0,0,1,16.317,32.634Z"
+                  fill="currentColor" />
+                <path
+                  id="Path_2"
+                  data-name="Path 2"
+                  d="M16.315,32.634h0a.5.5,0,0,1-.354-.146L3.428,19.951a.5.5,0,0,1,.707-.707L16.314,31.427,28.5,19.244a.5.5,0,1,1,.707.707L16.668,32.487A.5.5,0,0,1,16.315,32.634Z"
+                  fill="currentColor" />
+              </g>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-{{ partial "call-to-action.html" . }}
+  <script>
+    (function () {
+      function scrollToProject(event) {
+        event.preventDefault();
 
+        var projectSection = document.getElementById("project");
+        if (!projectSection) return;
+
+        var header = document.getElementById("site-header") || document.querySelector("header");
+        var headerHeight = header ? header.offsetHeight : 0;
+        var targetY = projectSection.getBoundingClientRect().top + window.scrollY - headerHeight;
+
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var trigger = document.querySelector(".js-scroll-to-project");
+        if (trigger) trigger.addEventListener("click", scrollToProject, { passive: false });
+      });
+    })();
+  </script>
+
+  <section id="project" class="py-20 lg:py-28">
+    <div class="container">
+      <div class="grid gap-8 md:grid-cols-2">
+        {{ range (.Paginator 4).Pages }}
+          {{ partial "components/portfolio-card" . }}
+        {{ end }}
+      </div>
+
+      <div class="mt-14 flex justify-center">
+        {{ partial "components/pagination.html" . }}
+      </div>
+    </div>
+  </section>
+
+  {{ partial "call-to-action.html" . }}
 {{ end }}

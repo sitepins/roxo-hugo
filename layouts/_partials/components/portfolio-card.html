@@ -1,0 +1,27 @@
+<article class="relative group transition duration-300 hover:shadow-xl">
+  <!-- Image -->
+  {{ $image:= .Params.image }}
+  {{ if $image }}
+    {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full") }}
+  {{ end }}
+
+
+  <!-- Content -->
+  <div
+    class="absolute bottom-0 w-full bg-tertiary p-6 transition-all duration-300 group-hover:pb-20">
+    <ul class="block text-primary mb-2">
+      <li>{{ delimit .Params.category ", " }}</li>
+    </ul>
+
+    <h4 class="font-semibold">
+      {{ .Title | markdownify }}
+    </h4>
+
+    <!-- Read More -->
+    <a
+      href="{{ .Permalink }}"
+      class="absolute bottom-6 left-6 w-full opacity-0 translate-y-5 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:text-primary hover:underline">
+      {{ .Params.button_label }}
+    </a>
+  </div>
+</article>

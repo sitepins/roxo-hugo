@@ -1,0 +1,67 @@
+/* section style */
+.section {
+  @apply py-24 xl:py-28;
+}
+
+.section-sm {
+  @apply py-16 xl:py-20;
+}
+
+/* container */
+.container {
+  @apply mx-auto xl:max-w-[1140px]! px-4;
+}
+
+/* social icons */
+.social-icons {
+  @apply space-x-3;
+}
+.social-icons li {
+  @apply inline-block;
+}
+.social-icons li a {
+  @apply flex h-6 w-6 items-center justify-center text-center leading-9 text-text-dark;
+}
+.social-icons li a svg {
+  @apply h-5 w-5;
+}
+
+/* Form Controls */
+.form-control {
+  @apply bg-transparent border-0 border-b border-primary mb-7 px-0 pb-2.5 pt-0 rounded-none font-light tracking-wider appearance-none h-10 transition-all duration-200 text-text-dark placeholder-text-dark outline-0 focus:ring-0;
+}
+
+.form-control:focus {
+  @apply shadow-none bg-transparent border-b border-text-dark outline-none;
+}
+
+select.form-control {
+  @apply h-10 cursor-pointer;
+}
+
+textarea.form-control {
+  @apply h-auto;
+}
+
+/* content style */
+.content {
+  @apply prose max-w-none;
+  @apply prose-headings:mb-[.3em] prose-headings:mt-[.6em] prose-headings:text-text-dark;
+  @apply prose-h1:text-h1-sm md:prose-h1:text-h1;
+  @apply prose-h2:text-h2-sm md:prose-h2:text-h2;
+  @apply prose-h3:text-h3-sm md:prose-h3:text-h3;
+  @apply prose-p:text-base prose-p:text-text;
+  @apply prose-a:text-text prose-a:[&.btn]:no-underline;
+  @apply prose-img:max-w-full prose-img:rounded;
+  @apply prose-strong:text-text-dark;
+  @apply prose-hr:border-border;
+  @apply prose-pre:rounded-lg prose-pre:bg-light;
+
+  @apply prose-li:text-text;
+  @apply prose-blockquote:rounded-lg prose-blockquote:border prose-blockquote:border-l-[10px] prose-blockquote:border-primary prose-blockquote:bg-light prose-blockquote:px-8 prose-blockquote:py-10 prose-blockquote:font-secondary prose-blockquote:text-2xl prose-blockquote:not-italic prose-blockquote:text-text-dark;
+  @apply prose-table:relative prose-table:overflow-hidden prose-table:rounded-lg prose-table:before:absolute prose-table:before:left-0 prose-table:before:top-0 prose-table:before:h-full prose-table:before:w-full prose-table:before:rounded-[inherit] prose-table:before:border prose-table:before:border-border prose-table:before:content-[""];
+  @apply prose-thead:border-border prose-thead:bg-light;
+  @apply prose-th:relative prose-th:z-10 prose-th:px-4 prose-th:py-[18px] prose-th:text-text-dark;
+  @apply prose-tr:border-border;
+  @apply prose-td:relative prose-td:z-10 prose-td:px-3 prose-td:py-[18px];
+}
